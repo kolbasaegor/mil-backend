@@ -48,3 +48,12 @@ def increase_views(session: Session, id: int) -> int:
 
 def get_top_products(session: Session, limit: int = 10) -> List[ProductReturnModel]:
     return session.query(Product).order_by(desc(Product.views)).limit(limit).all()
+
+
+def remove_product(session: Session, id: int) -> ProductReturnModel:
+    product = session.query(Product).filter(Product.id == id).one_or_none()
+
+    session.delete(product)
+    session.commit()
+
+    return product   
